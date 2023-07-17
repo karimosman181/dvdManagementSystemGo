@@ -106,3 +106,47 @@ func DeleteDvd(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 }
+
+/**
+ *
+ * update dvd function controller
+ **/
+func UpdateDvd(w http.ResponseWriter, r *http.Request) {
+
+	var updateDvd = &models.DVD{}
+
+	// json decode request body
+	utils.ParseBody(r, updateDvd)
+
+	//get params
+	vars := mux.Vars(r)
+
+	//get DvdId from params
+	dvdId := vars["DvdId"]
+	ID, err := strconv.ParseInt(dvdId, 0, 0)
+	if err != nil {
+		fmt.Println("error while parsing")
+	}
+
+	//get dvd by id
+	dvdDetails, _ := models.GetDVDById(ID)
+
+	//replace the requested data
+	if updateDvd.Movie != "" {
+		dvdDetails.Movie = updateDvd.Movie
+	}
+	if updateDvd.Studio != "" {
+		dvdDetails.Studio = updateDvd.Studio
+	}
+
+	//update dvd
+	d := dvdDetails.UpdateDvd(ID)
+
+	//json encode
+	res, _ := json.Marshal(d)
+
+	//prepare response
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+}

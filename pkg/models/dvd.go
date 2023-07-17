@@ -58,6 +58,10 @@ func GetDVDById(Id int64) (*DVD, *gorm.DB) {
  *
  * update dvd
  **/
+func (d *DVD) UpdateDvd(Id int64) *DVD {
+	db.Update(d).Where("ID=?", Id)
+	return d
+}
 
 /**
  *
