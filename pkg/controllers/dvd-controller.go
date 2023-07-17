@@ -129,7 +129,7 @@ func UpdateDvd(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//get dvd by id
-	dvdDetails, _ := models.GetDVDById(ID)
+	dvdDetails, db := models.GetDVDById(ID)
 
 	//replace the requested data
 	if updateDvd.Movie != "" {
@@ -140,10 +140,10 @@ func UpdateDvd(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//update dvd
-	d := dvdDetails.UpdateDvd(ID)
+	db.Save(&dvdDetails)
 
 	//json encode
-	res, _ := json.Marshal(d)
+	res, _ := json.Marshal(dvdDetails)
 
 	//prepare response
 	w.Header().Set("Content-Type", "application/json")
