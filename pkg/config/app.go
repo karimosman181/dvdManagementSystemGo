@@ -14,7 +14,7 @@ var (
  *  connection to db
  **/
 func Connect() {
-	d, err := gorm.Open("mysql", "gouser:gouser123/dvdstore?charaset=uft8&parseTime=True&loc=Local")
+	d, err := gorm.Open("mysql", "gouser:gouser123@/dvdstore?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err)
 	}
